@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="product"
+            type="com.example.novacommerce.domain.model.ProductUiModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="2dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/grey"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/productImage"
+                    app:layout_constraintEnd_toEndOf="@+id/productImage"
+                    app:layout_constraintStart_toStartOf="@+id/productImage"
+                    app:layout_constraintTop_toTopOf="@+id/productImage" />
+
+                <ImageView
+                    android:id="@+id/productImage"
+                    custom-loadImageWithGlide="@{product.image}"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/product_demo" />
+
+                <TextView
+                    android:id="@+id/productTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_bold"
+                    android:maxLines="2"
+                    android:text="@{product.title}"
+                    android:textColor="@color/dark"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/productImage"
+                    app:layout_constraintStart_toStartOf="@+id/productImage"
+                    app:layout_constraintTop_toBottomOf="@+id/productImage"
+                    tools:text="FS - Nike Air Max 270 React..." />
+
+                <TextView
+                    android:id="@+id/currentPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/archivo"
+                    android:text="@{String.valueOf(product.currentPrice)}"
+                    android:textColor="#01AAFF"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/productTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/productTitle"
+                    tools:text="$299.53" />
+
+                <TextView
+                    android:id="@+id/previousPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="$500.43"
+                    android:textColor="@color/neutral"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/currentPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/currentPrice" />
+
+                <TextView
+                    android:id="@+id/salePercentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/archivo"
+                    android:text="24% Off"
+                    android:textColor="@color/orange"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/previousPrice"
+                    app:layout_constraintStart_toEndOf="@+id/previousPrice"
+                    app:layout_constraintTop_toTopOf="@+id/previousPrice" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

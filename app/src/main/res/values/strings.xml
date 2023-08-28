@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Nova</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">I am a blank fragment</string>
+    <string name="register">Don\'t have an account? <font color='#40BFFF'><b>Register</b></font></string>
+    <string name="login">Already have an account? <font color='#40BFFF'><b>Sign in</b></font></string>
+</resources>
