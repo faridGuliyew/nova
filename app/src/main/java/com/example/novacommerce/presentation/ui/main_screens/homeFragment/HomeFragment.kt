@@ -7,26 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.novacommerce.R
 import com.example.novacommerce.common.base.BaseFragment
 import com.example.novacommerce.common.utils.CustomLoadingDialog
+import com.example.novacommerce.common.utils.showMotionToast
 import com.example.novacommerce.databinding.FragmentHomeBinding
 import com.example.novacommerce.presentation.adapter.rv.CategoryAdapter
 import com.example.novacommerce.presentation.adapter.rv.ProductAdapter
+import com.example.novacommerce.presentation.adapter.rv.ProductGridAdapter
 import com.example.novacommerce.presentation.adapter.vp.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import www.sanju.motiontoast.MotionToastStyle
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel by viewModels<HomeFragmentViewModel>()
 
-    private val viewPagerTopAdapter = ViewPagerAdapter()
+    private val viewPagerAdapter = ViewPagerAdapter()
     private val categoryAdapter = CategoryAdapter()
     private val flashSaleAdapter = ProductAdapter()
     private val megaSaleAdapter = ProductAdapter()
-    //change layout for all products, make it mini todo
-    private val allProductsAdapter = ProductAdapter()
+    private val allProductsAdapter = ProductGridAdapter()
 
     override fun onViewCreatedLight() {
 
@@ -44,6 +47,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     is HomeFragmentViewModel.HomeUiState.Loading->{
                         loadingDialog.show()
                     }
+                    is HomeFragmentViewModel.HomeUiState.Error->{
+                        requireActivity().showMotionToast("Uh-oh", it.message, MotionToastStyle.ERROR)
+                    }
                     is HomeFragmentViewModel.HomeUiState.ItemsTopSuccess->{
                         flashSaleAdapter.differ.submitList(it.data)
                         megaSaleAdapter.differ.submitList(it.data.reversed())
@@ -51,7 +57,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         loadingDialog.dismiss()
                     }
                     is HomeFragmentViewModel.HomeUiState.ViewPagerTopSuccess->{
-                        viewPagerTopAdapter.differ.submitList(it.data)
+                        viewPagerAdapter.differ.submitList(it.data)
                         loadingDialog.dismiss()
                     }
                     is HomeFragmentViewModel.HomeUiState.CategorySuccess->{
@@ -72,8 +78,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.allProductsRv.adapter = allProductsAdapter
     }
     private fun setViewPager(){
-        //Top
-        binding.viewPagerTop.adapter = viewPagerTopAdapter
+        binding.viewPagerTop.adapter = viewPagerAdapter
+        viewPagerAdapter.onPromotionClicked = { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPromotionDescFragment(it)) }
         binding.dotsIndicator.attachTo(binding.viewPagerTop)
     }
 }

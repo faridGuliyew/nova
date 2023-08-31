@@ -12,6 +12,7 @@ import com.example.novacommerce.common.utils.Resource
 import com.example.novacommerce.domain.model.ProductUiModel
 import com.example.novacommerce.domain.model.ViewPagerUiModel
 import com.example.novacommerce.domain.use_case.GetAllProductsUseCase
+import com.example.novacommerce.domain.use_case.GetAllPromotionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor(
     @ApplicationContext private val context : Context,
-    private val getAllProductsUseCase: GetAllProductsUseCase
+    private val getAllProductsUseCase: GetAllProductsUseCase,
+    private val getAllPromotionsUseCase: GetAllPromotionsUseCase
 ) : ViewModel(){
 
     private val _state = MutableLiveData<HomeUiState>()
@@ -30,7 +32,7 @@ class HomeFragmentViewModel @Inject constructor(
         get() = _state
 
     init {
-        getViewPagerData()
+        getAllPromotions()
         getCategories()
         getAllProducts()
     }
@@ -46,20 +48,24 @@ class HomeFragmentViewModel @Inject constructor(
             }
         }
     }
-    private fun getViewPagerData(){
+    private fun getAllPromotions(){
         viewModelScope.launch {
-            delay(100)
-            //todo -> mock data, testing
-            val mockList = arrayListOf<ViewPagerUiModel>()
+            getAllPromotionsUseCase().collectLatest {
+                when(it){
+                    is Resource.Loading -> _state.value = HomeUiState.Loading
+                    is Resource.Error -> _state.value = HomeUiState.Error(it.message)
+                    is Resource.Success -> _state.value = HomeUiState.ViewPagerTopSuccess(it.data)
+                }
+            }
+            /*val mockList = arrayListOf<ViewPagerUiModel>()
             mockList.add(ViewPagerUiModel(image = "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"))
             mockList.add(ViewPagerUiModel(image = "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"))
             mockList.add(ViewPagerUiModel(image = "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg", isCountdown = 1, title = "Flash sale of the year!"))
             mockList.add(ViewPagerUiModel(image = "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"))
             mockList.add(ViewPagerUiModel(image = "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"))
-            _state.value = HomeUiState.ViewPagerTopSuccess(mockList)
+            _state.value = HomeUiState.ViewPagerTopSuccess(mockList)*/
         }
     }
-
     private fun getCategories(){
         viewModelScope.launch {
             val mockList = arrayListOf<CategoryModel>()

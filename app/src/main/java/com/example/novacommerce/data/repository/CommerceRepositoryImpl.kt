@@ -1,10 +1,12 @@
 package com.example.novacommerce.data.repository
 
+import android.net.Uri
 import com.example.novacommerce.common.utils.NetworkState
 import com.example.novacommerce.common.utils.Resource
 import com.example.novacommerce.data.mapper.toProductUiModels
 import com.example.novacommerce.data.source.RemoteSource
 import com.example.novacommerce.domain.model.ProductUiModel
+import com.example.novacommerce.domain.model.ViewPagerUiModel
 import com.example.novacommerce.domain.repository.CommerceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +25,13 @@ class CommerceRepositoryImpl @Inject constructor(
             is NetworkState.Error -> emit(Resource.Error(request.message))
             is NetworkState.Success -> emit(Resource.Success(request.data.orEmpty().toProductUiModels()))
         }
-    }.catch {
-        emit(Resource.Error(it.localizedMessage?:"Unexpected error occurred"))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getAllPromotions() = flow {
+        emit(Resource.Loading)
+        when(val result = remoteSource.getAllPromotions()){
+            is NetworkState.Error -> emit(Resource.Error(result.message))
+            is NetworkState.Success -> emit(Resource.Success(result.data?.toObjects(ViewPagerUiModel::class.java).orEmpty()))
+        }
     }.flowOn(Dispatchers.IO)
 }

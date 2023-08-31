@@ -62,5 +62,21 @@
         android:id="@+id/homeFragment"
         android:name="com.example.novacommerce.presentation.ui.main_screens.homeFragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_promotionDescFragment"
+            app:destination="@id/promotionDescFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/promotionDescFragment"
+        android:name="com.example.novacommerce.presentation.ui.main_screens.promotionDescFragment.PromotionDescFragment"
+        android:label="fragment_promotion_desc"
+        tools:layout="@layout/fragment_promotion_desc" >
+        <argument
+            android:name="promotion"
+            app:argType="com.example.novacommerce.domain.model.ViewPagerUiModel" />
+    </fragment>
 </navigation>

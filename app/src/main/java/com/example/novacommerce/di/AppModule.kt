@@ -10,6 +10,7 @@ import com.example.novacommerce.data.source.RemoteSourceImpl
 import com.example.novacommerce.domain.repository.CommerceRepository
 import com.example.novacommerce.domain.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,7 +43,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideRemoteSource(commerceApi: CommerceApi) : RemoteSource{
-        return RemoteSourceImpl(commerceApi)
+    fun provideRemoteSource(commerceApi: CommerceApi, firestore: FirebaseFirestore) : RemoteSource{
+        return RemoteSourceImpl(
+            commerceApi,firestore)
     }
 }

@@ -57,6 +57,8 @@ dependencies {
 
     //Firebase
     implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.7.1")
 
     //Navigation
     val navVersion = "2.6.0"

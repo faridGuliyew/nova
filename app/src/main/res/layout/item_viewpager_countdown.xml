@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/main"
             android:layout_width="0dp"
             android:layout_height="240dp"
             app:cardCornerRadius="6dp"
@@ -85,13 +86,13 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
 
-                    tools:text="08"
                     android:textColor="@color/dark"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/productTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/productTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/productTitle"
+                    tools:text="08" />
 
                 <TextView
                     android:id="@+id/textViewMinute"
@@ -103,13 +104,13 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
 
-                    tools:text="34"
                     android:textColor="@color/dark"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textViewHour"
-                    app:layout_constraintTop_toBottomOf="@+id/productTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/productTitle"
+                    tools:text="34" />
 
                 <TextView
                     android:id="@+id/textViewSecond"
@@ -121,13 +122,13 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
 
-                    tools:text="52"
                     android:textColor="@color/dark"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textViewMinute"
-                    app:layout_constraintTop_toBottomOf="@+id/productTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/productTitle"
+                    tools:text="52" />
 
                 <ImageView
                     android:id="@+id/colon1"

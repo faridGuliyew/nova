@@ -13,8 +13,8 @@ import java.util.Calendar
 @BindingAdapter("custom-loadImageWithGlide")
 fun ImageView.loadImageWithGlide(url: String?) {
     Glide.with(this).load(url)
-        .placeholder(R.drawable.ic_logo)
-        .error(R.drawable.ic_logo)
+        .placeholder(R.drawable.placeholder)
+        .error(R.drawable.placeholder)
         .into(this)
 }
 
@@ -25,7 +25,8 @@ suspend fun millisToReadable(
     millis: Long,
 ) {
     val time = Calendar.getInstance()
-    time.timeInMillis = millis
+    val current = time.timeInMillis
+    time.timeInMillis = millis - current
 
     fun unitToText(unit: Int): String {
         return if (unit > 9) unit.toString() else "0$unit"

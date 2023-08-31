@@ -1,5 +1,6 @@
 package com.example.novacommerce.presentation.adapter.vp
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,11 +25,14 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.DecisiveViewPager
             }
         }
     }
+
+    var onPromotionClicked = fun(promotion : ViewPagerUiModel){}
     inner class ViewPagerCountdownViewHolder(private val itemViewpagerCountdownBinding: ItemViewpagerCountdownBinding) :
         DecisiveViewPagerViewHolder(itemViewpagerCountdownBinding.root) {
         fun bind(uiModel: ViewPagerUiModel) {
             with(itemViewpagerCountdownBinding) {
                 model = uiModel
+                main.setOnClickListener { onPromotionClicked(uiModel) }
                 CoroutineScope(Dispatchers.Main).launch {
                     millisToReadable(textViewHour,textViewMinute,textViewSecond, uiModel.timeLeftInMillis)
                 }
@@ -36,7 +40,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.DecisiveViewPager
         }
     }
 
-    open inner class DecisiveViewPagerViewHolder (private val view: View) : RecyclerView.ViewHolder(view)
+    open inner class DecisiveViewPagerViewHolder (view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DecisiveViewPagerViewHolder {
         return if (viewType == 0){
@@ -53,12 +57,13 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.DecisiveViewPager
         return differ.currentList.size
     }
     override fun getItemViewType(position: Int): Int {
-        return differ.currentList[position].isCountdown
+        return if (differ.currentList[position].countdown) 1 else 0
     }
 
     override fun onBindViewHolder(holder: DecisiveViewPagerViewHolder, position: Int) {
         val item = differ.currentList[position]
-        if (item.isCountdown == 0) (holder as ViewPagerNormalViewHolder).bind(item)
+        Log.e("wtf?",item.toString())
+        if (!item.countdown) (holder as ViewPagerNormalViewHolder).bind(item)
         else (holder as ViewPagerCountdownViewHolder).bind(item)
     }
 
